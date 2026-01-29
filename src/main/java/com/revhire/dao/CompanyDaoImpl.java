@@ -4,8 +4,12 @@ import java.sql.*;
 
 import com.revhire.config.DBConnection;
 import com.revhire.model.Company;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CompanyDaoImpl implements CompanyDao {
+
+    private static final Logger logger = LogManager.getLogger(CompanyDaoImpl.class);
 
     @Override
     public int createCompany(Company c) {
@@ -26,10 +30,14 @@ public class CompanyDaoImpl implements CompanyDao {
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next())
-                return rs.getInt(1);
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                logger.info("Company created in DB with ID: {}", id);
+                return id;
+            }
 
         } catch (Exception e) {
+            logger.error("Error creating company in DB: {}", e.getMessage());
             e.printStackTrace();
         }
         return 0;
@@ -82,9 +90,14 @@ public class CompanyDaoImpl implements CompanyDao {
             ps.setString(6, c.getLocation());
             ps.setInt(7, c.getCompanyId());
 
-            return ps.executeUpdate() > 0;
+            boolean updated = ps.executeUpdate() > 0;
+            if (updated) {
+                logger.info("Company profile updated for Company ID: {}", c.getCompanyId());
+            }
+            return updated;
 
         } catch (Exception e) {
+            logger.error("Error updating company profile for ID {}: {}", c.getCompanyId(), e.getMessage());
             e.printStackTrace();
         }
         return false;
