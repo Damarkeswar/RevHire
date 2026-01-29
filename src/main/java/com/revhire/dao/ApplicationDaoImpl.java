@@ -8,12 +8,8 @@ import java.util.List;
 
 import com.revhire.config.DBConnection;
 import com.revhire.model.Application;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class ApplicationDaoImpl implements ApplicationDao {
-
-	private static final Logger logger = LogManager.getLogger(ApplicationDaoImpl.class);
 
 	@Override
 	public boolean applyJob(Application application) {
@@ -27,15 +23,9 @@ public class ApplicationDaoImpl implements ApplicationDao {
 			ps.setInt(3, application.getResumeId());
 			ps.setString(4, "APPLIED");
 
-			boolean success = ps.executeUpdate() > 0;
-			if (success) {
-				logger.info("Application created in DB for Job ID: {} by Seeker ID: {}", application.getJobId(),
-						application.getJobSeekerId());
-			}
-			return success;
+			return ps.executeUpdate() > 0;
 
 		} catch (Exception e) {
-			logger.error("Error creating application in DB: {}", e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -100,14 +90,9 @@ public class ApplicationDaoImpl implements ApplicationDao {
 			ps.setString(2, comment);
 			ps.setInt(3, applicationId);
 
-			boolean success = ps.executeUpdate() > 0;
-			if (success) {
-				logger.info("Application ID {} status updated to {} in DB", applicationId, status);
-			}
-			return success;
+			return ps.executeUpdate() > 0;
 
 		} catch (Exception e) {
-			logger.error("Error updating application status in DB for ID {}: {}", applicationId, e.getMessage());
 			e.printStackTrace();
 		}
 		return false;

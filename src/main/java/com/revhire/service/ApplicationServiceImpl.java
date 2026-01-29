@@ -7,9 +7,12 @@ import com.revhire.dao.ApplicationDaoImpl;
 import com.revhire.dao.ResumeDao;
 import com.revhire.dao.ResumeDaoImpl;
 import com.revhire.model.Application;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ApplicationServiceImpl implements ApplicationService {
 
+	private static final Logger logger = LogManager.getLogger(ApplicationServiceImpl.class);
 	private ApplicationDao applicationDao = new ApplicationDaoImpl();
 
 	@Override
@@ -32,11 +35,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		boolean result = applicationDao.applyJob(application);
 		if (result) {
+			logger.info("Application submitted: Seeker ID {} for Job ID {}", application.getJobSeekerId(),
+					application.getJobId());
 			JobService jobService = new JobServiceImpl();
 			com.revhire.model.Job job = jobService.getJobById(application.getJobId());
 			if (job != null) {
 				ns.notifyEmployer(job.getCompanyId(), "New application received for Job: " + job.getTitle());
 			}
+		} else {
+			logger.error("Application failed: Seeker ID {} for Job ID {}", application.getJobSeekerId(),
+					application.getJobId());
 		}
 		return result;
 	}
@@ -50,11 +58,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 	public boolean changeStatus(int applicationId, String status, String comment) {
 		boolean updated = applicationDao.updateApplicationStatus(applicationId, status, comment);
 		if (updated) {
+			logger.info("Application status updated: ID {} to {}", applicationId, status);
 			int jsId = applicationDao.getJobSeekerIdByApplicationId(applicationId);
 			if (jsId > 0) {
 				NotificationService ns = new NotificationServiceImpl();
 				ns.notifyJobSeeker(jsId, "Your application status has been updated to: " + status);
 			}
+		} else {
+			logger.warn("Failed to update status for Application ID: {}", applicationId);
 		}
 		return updated;
 	}

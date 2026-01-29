@@ -26,6 +26,29 @@ public class JobServiceImpl implements JobService {
 			logger.info("Job posted: {} by Company ID: {}", job.getTitle(), job.getCompanyId());
 			NotificationService ns = new NotificationServiceImpl();
 			ns.notifyEmployer(job.getCompanyId(), "Job posted successfully: " + job.getTitle());
+
+			// Notify matching seekers
+			try {
+				com.revhire.dao.JobSeekerDao seekerDao = new com.revhire.dao.JobSeekerDaoImpl();
+				// Use the first skill and first edu word as a simple match filter
+				String skillFilter = null;
+				if (job.getSkills() != null && !job.getSkills().isEmpty()) {
+					skillFilter = job.getSkills().split(",")[0].trim();
+				}
+				String eduFilter = null;
+				if (job.getEducationRequired() != null && !job.getEducationRequired().isEmpty()) {
+					eduFilter = job.getEducationRequired().split(" ")[0].trim();
+				}
+
+				List<com.revhire.model.JobSeeker> matchingSeekers = seekerDao.searchJobSeekers(skillFilter, null,
+						eduFilter);
+				for (com.revhire.model.JobSeeker s : matchingSeekers) {
+					ns.notifyJobSeeker(s.getJobSeekerId(),
+							"New Job Match: " + job.getTitle() + " at " + job.getLocation());
+				}
+			} catch (Exception e) {
+				logger.error("Error notifying seekers for job match", e);
+			}
 		} else {
 			logger.error("Failed to post job: {}", job.getTitle());
 		}

@@ -2,70 +2,49 @@
 
 ## 1. Entity Relationship Diagram (ERD)
 
-The following tables comprise the RevHire database schema:
+```mermaid
+erDiagram
+    USERS ||--|| JOB_SEEKERS : "has profile"
+    USERS ||--|| EMPLOYERS : "is employer"
+    EMPLOYERS ||--|| COMPANIES : "manages"
+    COMPANIES ||--o{ JOBS : "posts"
+    JOB_SEEKERS ||--o{ APPLICATIONS : "submits"
+    JOBS ||--o{ APPLICATIONS : "receives"
+    JOB_SEEKERS ||--o{ EDUCATION : "has"
+    JOB_SEEKERS ||--o{ SKILLS : "possesses"
+    JOB_SEEKERS ||--o{ EXPERIENCE : "attained"
+    JOB_SEEKERS ||--o{ NOTIFICATIONS : "receives"
+    COMPANIES ||--o{ EMPLOYER_NOTIFICATIONS : "receives"
+```
 
-### Users & Profiles
-- **USERS**: Core authentication table.
-  - `user_id` (PK), `email`, `password`, `role`, `security_question`, `security_answer`
-- **JOB_SEEKERS**: Extended profile for candidates.
-  - `job_seeker_id` (PK), `user_id` (FK), `full_name`, `phone`, `total_experience`
-- **EMPLOYERS**: Connector for employer users.
-  - `employer_id` (PK), `user_id` (FK)
-- **COMPANIES**: Business details managed by employers.
-  - `company_id` (PK), `employer_id` (FK), `company_name`, `industry`, `company_size`, etc.
-
-### Job Management
-- **JOBS**: Job postings created by companies.
-  - `job_id` (PK), `company_id` (FK), `job_title`, `job_description`, `skills_required`, `education_required`, `salary_range`, `status`
-- **APPLICATIONS**: Links seekers to jobs.
-  - `application_id` (PK), `job_id` (FK), `job_seeker_id` (FK), `resume_id` (FK), `status`, `applied_date`
-- **RESUMES**: Documents uploaded by seekers.
-  - `resume_id` (PK), `job_seeker_id` (FK), `file_path`, `upload_date`
-
-### Seeker Details
-- **EDUCATION**: `education_id` (PK), `job_seeker_id` (FK), `degree`, `institution`, etc.
-- **SKILLS**: `skill_id` (PK), `job_seeker_id` (FK), `skill_name`, `proficiency_level`
-- **EXPERIENCE**: `experience_id` (PK), `job_seeker_id` (FK), `company_name`, `role`, etc.
-
-### Communication
-- **NOTIFICATIONS**: In-app alerts for job seekers.
-- **EMPLOYER_NOTIFICATIONS**: In-app alerts for recruiters.
+### Table Details:
+- **USERS**: `user_id`, `email`, `password_hash`, `role`, `security_question`, `security_answer`
+- **JOBS**: `job_id`, `company_id`, `job_title`, `job_description`, `skills_required`, `education_required`, `salary_range`
+- **APPLICATIONS**: `application_id`, `job_id`, `job_seeker_id`, `status`, `applied_date`, `comments`
 
 ---
 
 ## 2. Application Architecture
 
-The application follows a **3-Tier Architecture** pattern:
+```mermaid
+graph TD
+    UI[Console UI Layer] --> Service[Business Service Layer]
+    Service --> DAO[Data Access Layer]
+    Service --> Log[Log4J2 Logging]
+    DAO --> DB[(Oracle Database)]
+```
 
-### Tier 1: Presentation (UI Layer)
-- **Package**: `com.revhire.ui`
-- **Responsibilities**: 
-  - Handles all `Console` input/output.
-  - Manages menu navigation and user workflow.
-  - Displays formatted data and captures user choices.
-- **Key Classes**: `MainMenu`, `JobSeekerDashboard`, `EmployerDashboard`, `JobSearchMenu`.
-
-### Tier 2: Business Logic (Service Layer)
-- **Package**: `com.revhire.service`
-- **Responsibilities**:
-  - Implements business rules (e.g., job matching logic, profile completion calculation).
-  - Orchestrates calls between different DAOs.
-  - Handles logging via **Log4J2**.
-- **Key Classes**: `JobServiceImpl`, `AuthServiceImpl`, `ApplicationServiceImpl`.
-
-### Tier 3: Data Access (DAO Layer)
-- **Package**: `com.revhire.dao`
-- **Responsibilities**:
-  - Encapsulates all SQL logic.
-  - Uses **JDBC PreparedStatements** for secure DB interaction.
-  - Maps `ResultSet` objects to Java **Models** (`com.revhire.model`).
-- **Key Classes**: `JobDaoImpl`, `UserDaoImpl`, `ApplicationDaoImpl`.
+### Architecture Breakdown:
+- **Presentation (com.revhire.ui)**: Handles input/output.
+- **Service (com.revhire.service)**: Contains business logic and orchestrates data.
+- **DAO (com.revhire.dao)**: Performs CRUD operations using JDBC.
 
 ---
 
 ## 3. Technologies Used
 - **Language**: Java 8+
-- **Database**: Oracle DB (SQL Developer)
+- **Database**: Oracle (SQL Developer)
+- **Framework**: JDBC (No ORM used for performance)
 - **Build Tool**: Maven
 - **Logging**: Log4J2
 - **Testing**: JUnit 5

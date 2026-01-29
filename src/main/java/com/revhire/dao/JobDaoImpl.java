@@ -8,12 +8,8 @@ import java.util.List;
 
 import com.revhire.config.DBConnection;
 import com.revhire.model.Job;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class JobDaoImpl implements JobDao {
-
-	private static final Logger logger = LogManager.getLogger(JobDaoImpl.class);
 
 	@Override
 	public boolean postJob(Job job) {
@@ -36,13 +32,9 @@ public class JobDaoImpl implements JobDao {
 			ps.setString(11, "OPEN");
 			ps.setString(12, job.getEducationRequired());
 
-			int result = ps.executeUpdate();
-			if (result > 0) {
-				logger.info("Job posted to DB successfully: {}", job.getTitle());
-				return true;
-			}
+			return ps.executeUpdate() > 0;
+
 		} catch (Exception e) {
-			logger.error("Error posting job to DB: {}", e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -71,10 +63,8 @@ public class JobDaoImpl implements JobDao {
 
 				jobs.add(job);
 			}
-			logger.info("Retrieved {} jobs from DB", jobs.size());
 
 		} catch (Exception e) {
-			logger.error("Error retrieving jobs from DB: {}", e.getMessage());
 			e.printStackTrace();
 		}
 		return jobs;
@@ -199,13 +189,8 @@ public class JobDaoImpl implements JobDao {
 			ps.setString(11, job.getEducationRequired());
 			ps.setInt(12, job.getJobId());
 
-			boolean updated = ps.executeUpdate() > 0;
-			if (updated) {
-				logger.info("Job ID {} updated in DB", job.getJobId());
-			}
-			return updated;
+			return ps.executeUpdate() > 0;
 		} catch (Exception e) {
-			logger.error("Error updating job ID {}: {}", job.getJobId(), e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
@@ -218,13 +203,8 @@ public class JobDaoImpl implements JobDao {
 		try (Connection con = DBConnection.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql)) {
 			ps.setInt(1, jobId);
-			boolean deleted = ps.executeUpdate() > 0;
-			if (deleted) {
-				logger.info("Job ID {} deleted from DB", jobId);
-			}
-			return deleted;
+			return ps.executeUpdate() > 0;
 		} catch (Exception e) {
-			logger.error("Error deleting job ID {}: {}", jobId, e.getMessage());
 			e.printStackTrace();
 		}
 		return false;

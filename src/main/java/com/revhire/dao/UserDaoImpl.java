@@ -6,13 +6,8 @@ import java.sql.ResultSet;
 
 import com.revhire.config.DBConnection;
 import com.revhire.model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class UserDaoImpl implements UserDao {
-
-	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
-
 	@Override
 	public int registerUser(User user) {
 
@@ -37,16 +32,13 @@ public class UserDaoImpl implements UserDao {
 					int userId = rs.getInt(1);
 
 					con.commit();
-					logger.info("User {} registered with DB ID: {}", user.getEmail(), userId);
 					return userId;
 				}
 			}
 
 			con.rollback();
-			logger.warn("Registration rolled back for user: {}", user.getEmail());
 
 		} catch (Exception e) {
-			logger.error("Database error during registration for {}: {}", user.getEmail(), e.getMessage());
 			e.printStackTrace();
 		}
 		return 0;
@@ -106,13 +98,10 @@ public class UserDaoImpl implements UserDao {
 				u.setUserId(rs.getInt("user_id"));
 				u.setEmail(rs.getString("email"));
 				u.setRole(rs.getString("role"));
-				logger.info("Database login successful for: {}", email);
 				return u;
 			}
-			logger.warn("Database login failed (invalid credentials) for: {}", email);
 
 		} catch (Exception e) {
-			logger.error("Database error during login for {}: {}", email, e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
