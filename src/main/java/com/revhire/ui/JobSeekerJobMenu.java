@@ -1,0 +1,50 @@
+package com.revhire.ui;
+
+import java.util.List;
+import java.util.Scanner;
+
+import com.revhire.model.Job;
+import com.revhire.service.JobService;
+import com.revhire.service.JobServiceImpl;
+
+public class JobSeekerJobMenu {
+
+    private static JobService jobService = new JobServiceImpl();
+
+    public static void show() {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Available Jobs ===");
+            System.out.println("1. View All Jobs");
+            System.out.println("2. Back");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    List<Job> jobs = jobService.viewAllJobs();
+
+                    if (jobs.isEmpty()) {
+                        System.out.println("❌ No jobs available");
+                    } else {
+                        System.out.println("\n--- Job Listings ---");
+                        for (Job j : jobs) {
+                            System.out.println(
+                                j.getJobId() + " | " +
+                                j.getTitle() + " | " +
+                                j.getLocation() + " | " +
+                                j.getSalaryMin() + " - " + j.getSalaryMax()
+                            );
+                        }
+                    }
+                    break;
+
+                case 2:
+                    return;
+            }
+        }
+    }
+}

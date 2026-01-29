@@ -1,0 +1,49 @@
+package com.revhire.dao;
+
+import java.sql.*;
+
+import com.revhire.config.DBConnection;
+
+public class ResumeDaoImpl implements ResumeDao {
+
+    @Override
+    public int createResume(int jobSeekerId, String objective) {
+
+        String sql = "INSERT INTO resumes (job_seeker_id, objective) VALUES (?, ?)";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps =
+                con.prepareStatement(sql, new String[]{"resume_id"})) {
+
+            ps.setInt(1, jobSeekerId);
+            ps.setString(2, objective);
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getLatestResumeId(int jobSeekerId) {
+
+        String sql = "SELECT resume_id FROM resumes WHERE job_seeker_id = ? ORDER BY created_at DESC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, jobSeekerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}
