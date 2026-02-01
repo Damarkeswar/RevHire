@@ -1,0 +1,44 @@
+package com.revhire.service;
+
+import com.revhire.dao.UserDao;
+import com.revhire.dao.UserDaoImpl;
+import com.revhire.model.User;
+
+public class AuthServiceImpl implements AuthService {
+
+    private UserDao userDao = new UserDaoImpl();
+
+    @Override
+    public boolean register(User user) {
+
+        // Business validation
+        if (user.getEmail() == null || user.getPassword() == null) {
+            System.out.println("❌ Email and password cannot be empty");
+            return false;
+        }
+
+        return userDao.registerUser(user);
+    }
+
+    @Override
+    public User login(String email, String password) {
+
+        if (email.isEmpty() || password.isEmpty()) {
+            System.out.println("❌ Invalid login credentials");
+            return null;
+        }
+
+        return userDao.login(email, password);
+    }
+
+    @Override
+    public boolean changePassword(int userId, String newPassword) {
+
+        if (newPassword.length() < 4) {
+            System.out.println("❌ Password too short");
+            return false;
+        }
+
+        return userDao.changePassword(userId, newPassword);
+    }
+}

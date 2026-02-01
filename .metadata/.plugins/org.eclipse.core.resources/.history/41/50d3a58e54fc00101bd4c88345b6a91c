@@ -1,0 +1,31 @@
+package com.revhire.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import com.revhire.config.DBConnection;
+
+public class SkillDaoImpl implements SkillDao {
+
+    @Override
+    public boolean addSkill(int jobSeekerId,
+                            String skillName,
+                            String proficiency) {
+
+        String sql = "INSERT INTO skills (job_seeker_id, skill_name, proficiency) VALUES (?, ?, ?)";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, jobSeekerId);
+            ps.setString(2, skillName);
+            ps.setString(3, proficiency);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}

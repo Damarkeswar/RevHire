@@ -17,7 +17,7 @@ public class MainMenu {
 
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = com.revhire.config.ScannerUtil.getScanner();
 		AuthService authService = new AuthServiceImpl();
 
 		while (true) {
@@ -93,7 +93,7 @@ public class MainMenu {
 								System.out.println("❌ Job seeker profile not found.");
 								break;
 							}
-							JobSeekerDashboard.show(jsId);
+							com.revhire.ui.JobSeekerDashboard.show(jsId);
 						} else if ("EMPLOYER".equalsIgnoreCase(loggedIn.getRole())) {
 							EmployerDao employerDao = new EmployerDaoImpl();
 							int employerId = employerDao.getEmployerIdByUserId(loggedIn.getUserId());
@@ -107,7 +107,7 @@ public class MainMenu {
 								System.out.println("❌ Company not found");
 								break;
 							}
-							EmployerDashboard.show(company.getCompanyId());
+							com.revhire.ui.EmployerDashboard.show(company.getCompanyId());
 						}
 					} else if (loginChoice == 2) {
 						System.out.print("Enter Registered Email: ");
@@ -138,7 +138,6 @@ public class MainMenu {
 
 				case 3:
 					System.out.println("👋 Thank you for using RevHire");
-					sc.close();
 					System.exit(0);
 					break;
 

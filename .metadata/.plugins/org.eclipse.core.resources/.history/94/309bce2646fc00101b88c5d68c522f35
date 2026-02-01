@@ -1,0 +1,39 @@
+package com.revhire.ui;
+
+import java.util.Scanner;
+
+public class JobSeekerDashboard {
+
+    public static void show(int jobSeekerId) {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Job Seeker Dashboard ===");
+            System.out.println("1. Manage Profile");
+            System.out.println("2. Manage Resume");
+            System.out.println("3. Search Jobs");
+            System.out.println("4. Apply for Job");
+            System.out.println("5. View My Applications");
+            System.out.println("6. Withdraw Application");
+            System.out.println("7. View Notifications");
+            System.out.println("8. Logout");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 : ProfileMenu.show(jobSeekerId); break;
+                case 2 : ResumeMenu.show(jobSeekerId); break;
+                case 3 : JobSearchMenu.show(jobSeekerId); break;
+                case 4 : ApplicationMenu.apply(jobSeekerId); break;
+                case 5 : ApplicationMenu.view(jobSeekerId); break;
+                case 6 : ApplicationMenu.withdraw(jobSeekerId); break
+                case 7 : NotificationMenu.show(jobSeekerId);
+                case 8 : {
+                    System.out.println("👋 Logged out");
+                    return;
+                }
+            }
+        }
+    }
+}

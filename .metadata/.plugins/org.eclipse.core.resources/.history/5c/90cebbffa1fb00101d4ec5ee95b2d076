@@ -1,0 +1,73 @@
+package com.revhire.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revhire.config.DBConnection;
+import com.revhire.model.Job;
+
+public class JobDaoImpl implements JobDao {
+
+	@Override
+    public boolean postJob(Job job) {
+
+        String sql = "INSERT INTO jobs (company_id, job_title, job_description, skills_required, min_experience, location, salary_min, salary_max,
+             job_type, deadline, status)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+        """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, job.getCompanyId());
+            ps.setString(2, job.getTitle());
+            ps.setString(3, job.getDescription());
+            ps.setString(4, job.getSkills());
+            ps.setInt(5, job.getMinExperience());
+            ps.setString(6, job.getLocation());
+            ps.setDouble(7, job.getSalaryMin());
+            ps.setDouble(8, job.getSalaryMax());
+            ps.setString(9, job.getJobType());
+            ps.setDate(10, job.getDeadline());
+            ps.setString(11, "OPEN");
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+	@Override
+	public List<Job> getAllJobs() {
+
+		List<Job> jobs = new ArrayList<>();
+		String sql = "SELECT * FROM jobs WHERE status='OPEN'";
+
+		try (Connection con = DBConnection.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Job job = new Job();
+				job.setJobId(rs.getInt("job_id"));
+				job.setTitle(rs.getString("job_title"));
+				job.setLocation(rs.getString("location"));
+				job.setSkills(rs.getString("skills_required"));
+				job.setMinExperience(rs.getInt("min_experience"));
+				job.setSalaryMin(rs.getDouble("salary_min"));
+				job.setSalaryMax(rs.getDouble("salary_max"));
+
+				jobs.add(job);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jobs;
+	}
+}

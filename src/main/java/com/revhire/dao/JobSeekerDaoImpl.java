@@ -91,4 +91,24 @@ public class JobSeekerDaoImpl implements JobSeekerDao {
         }
         return list;
     }
+
+    @Override
+    public java.util.List<com.revhire.model.JobSeeker> getAllJobSeekers() {
+        java.util.List<com.revhire.model.JobSeeker> list = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM job_seekers";
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                com.revhire.model.JobSeeker js = new com.revhire.model.JobSeeker();
+                js.setJobSeekerId(rs.getInt("job_seeker_id"));
+                js.setFullName(rs.getString("full_name"));
+                js.setUserId(rs.getInt("user_id"));
+                list.add(js);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

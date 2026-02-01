@@ -3,6 +3,7 @@ package com.revhire.ui;
 import java.util.List;
 import java.util.Scanner;
 
+import com.revhire.config.ScannerUtil;
 import com.revhire.service.NotificationService;
 import com.revhire.service.NotificationServiceImpl;
 
@@ -11,7 +12,7 @@ public class NotificationMenu {
     private static NotificationService service = new NotificationServiceImpl();
 
     public static void show(int jobSeekerId) {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerUtil.getScanner();
         List<String> notifications = service.viewNotifications(jobSeekerId);
 
         System.out.println("\n=== Notifications ===");
@@ -28,7 +29,7 @@ public class NotificationMenu {
     }
 
     public static void showEmployer(int companyId) {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerUtil.getScanner();
         List<String> notifications = service.viewEmployerNotifications(companyId);
 
         System.out.println("\n=== Employer Notifications ===");

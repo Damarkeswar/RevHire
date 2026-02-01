@@ -1,0 +1,53 @@
+package com.revhire.ui;
+
+import java.util.List;
+import java.util.Scanner;
+
+import com.revhire.model.Application;
+import com.revhire.service.ApplicationService;
+import com.revhire.service.ApplicationServiceImpl;
+
+public class ApplicationMenu {
+
+    private static ApplicationService appService =
+            new ApplicationServiceImpl();
+
+    public static void apply(int jobSeekerId) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Job ID: ");
+        int jobId = sc.nextInt();
+
+        Application app = new Application();
+        app.setJobId(jobId);
+        app.setJobSeekerId(jobSeekerId);
+
+        if (appService.applyForJob(app))
+            System.out.println("✅ Applied successfully");
+        else
+            System.out.println("❌ Apply failed");
+    }
+
+    public static void view(int jobSeekerId) {
+
+        List<Application> apps =
+            appService.viewMyApplications(jobSeekerId);
+
+        System.out.println("\n=== My Applications ===");
+
+        if (apps.isEmpty()) {
+            System.out.println("No applications found");
+            return;
+        }
+
+        for (Application a : apps) {
+            System.out.println(
+                a.getApplicationId() +
+                " | Job ID: " + a.getJobId() +
+                " | Status: " + a.getStatus()
+            );
+        }
+    }
+
+    // withdraw(jobSeekerId) already implemented earlier
+}

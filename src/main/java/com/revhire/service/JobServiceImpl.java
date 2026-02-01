@@ -27,27 +27,41 @@ public class JobServiceImpl implements JobService {
 			NotificationService ns = new NotificationServiceImpl();
 			ns.notifyEmployer(job.getCompanyId(), "Job posted successfully: " + job.getTitle());
 
-			// Notify matching seekers
-			try {
-				com.revhire.dao.JobSeekerDao seekerDao = new com.revhire.dao.JobSeekerDaoImpl();
-				// Use the first skill and first edu word as a simple match filter
-				String skillFilter = null;
-				if (job.getSkills() != null && !job.getSkills().isEmpty()) {
-					skillFilter = job.getSkills().split(",")[0].trim();
-				}
-				String eduFilter = null;
-				if (job.getEducationRequired() != null && !job.getEducationRequired().isEmpty()) {
-					eduFilter = job.getEducationRequired().split(" ")[0].trim();
+			// Notify matching job seekers
+			com.revhire.dao.JobSeekerDao jsDao = new com.revhire.dao.JobSeekerDaoImpl();
+			com.revhire.dao.SkillDao skillDao = new com.revhire.dao.SkillDaoImpl();
+			com.revhire.dao.EducationDao eduDao = new com.revhire.dao.EducationDaoImpl();
+
+			List<com.revhire.model.JobSeeker> allSeekers = jsDao.getAllJobSeekers();
+			for (com.revhire.model.JobSeeker js : allSeekers) {
+				boolean match = false;
+
+				// Skill match
+				if (job.getSkills() != null) {
+					List<com.revhire.model.Skill> jsSkills = skillDao.getSkillsByJobSeeker(js.getJobSeekerId());
+					for (com.revhire.model.Skill s : jsSkills) {
+						if (job.getSkills().toLowerCase().contains(s.getSkillName().toLowerCase())) {
+							match = true;
+							break;
+						}
+					}
 				}
 
-				List<com.revhire.model.JobSeeker> matchingSeekers = seekerDao.searchJobSeekers(skillFilter, null,
-						eduFilter);
-				for (com.revhire.model.JobSeeker s : matchingSeekers) {
-					ns.notifyJobSeeker(s.getJobSeekerId(),
-							"New Job Match: " + job.getTitle() + " at " + job.getLocation());
+				// If not matched by skills, check education
+				if (!match && job.getEducationRequired() != null) {
+					List<com.revhire.model.Education> jsEdus = eduDao.getEducationByJobSeeker(js.getJobSeekerId());
+					for (com.revhire.model.Education e : jsEdus) {
+						if (job.getEducationRequired().toLowerCase().contains(e.getDegree().toLowerCase())) {
+							match = true;
+							break;
+						}
+					}
 				}
-			} catch (Exception e) {
-				logger.error("Error notifying seekers for job match", e);
+
+				if (match) {
+					ns.notifyJobSeeker(js.getJobSeekerId(),
+							"A new job matching your profile was posted: " + job.getTitle());
+				}
 			}
 		} else {
 			logger.error("Failed to post job: {}", job.getTitle());

@@ -1,0 +1,28 @@
+package com.revhire.ui;
+
+import java.util.List;
+
+import com.revhire.service.NotificationService;
+import com.revhire.service.NotificationServiceImpl;
+
+public class NotificationMenu {
+
+    private static NotificationService service =
+            new NotificationServiceImpl();
+
+    public static void show(int jobSeekerId) {
+
+        List<String> notifications =
+            service.viewNotifications(jobSeekerId);
+
+        System.out.println("\n=== Notifications ===");
+
+        if (notifications.isEmpty()) {
+            System.out.println("No notifications");
+        } else {
+            for (String msg : notifications) {
+                System.out.println("• " + msg);
+            }
+        }
+    }
+}

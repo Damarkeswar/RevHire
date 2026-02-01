@@ -6,7 +6,7 @@ public class EmployerDashboard {
 
     public static void show(int companyId) {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = com.revhire.config.ScannerUtil.getScanner();
 
         com.revhire.service.ProfileCompletionService completionService = new com.revhire.service.ProfileCompletionService();
         com.revhire.service.CompanyService companyService = new com.revhire.service.CompanyServiceImpl();

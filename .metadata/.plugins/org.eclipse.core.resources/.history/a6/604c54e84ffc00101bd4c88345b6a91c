@@ -1,0 +1,12 @@
+package com.revhire.dao;
+
+public interface EducationDao {
+
+    boolean addEducation(
+        int jobSeekerId,
+        String degree,
+        String institution,
+        int startYear,
+        int endYear
+    );
+}

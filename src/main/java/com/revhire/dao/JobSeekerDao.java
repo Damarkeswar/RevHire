@@ -7,4 +7,6 @@ public interface JobSeekerDao {
 	int getJobSeekerIdByUserId(int userId);
 
 	java.util.List<com.revhire.model.JobSeeker> searchJobSeekers(String skills, Integer experience, String education);
+
+	java.util.List<com.revhire.model.JobSeeker> getAllJobSeekers();
 }

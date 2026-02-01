@@ -1,0 +1,24 @@
+package com.revhire.ui;
+
+import java.util.Scanner;
+
+public class CertificationMenu {
+
+    public static void add(int jobSeekerId) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\n=== Add Certification ===");
+
+        System.out.print("Certification Name: ");
+        String cert = sc.nextLine();
+
+        System.out.print("Issued By: ");
+        String issuer = sc.nextLine();
+
+        System.out.print("Year: ");
+        int year = sc.nextInt();
+
+        System.out.println("✅ Certification added successfully");
+    }
+}

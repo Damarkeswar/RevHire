@@ -4,9 +4,21 @@ import com.revhire.dao.*;
 
 public class ProfileCompletionService {
 
-    private EducationDao eduDao = new EducationDaoImpl();
-    private SkillDao skillDao = new SkillDaoImpl();
-    private ResumeDao resumeDao = new ResumeDaoImpl();
+    private EducationDao eduDao;
+    private SkillDao skillDao;
+    private ResumeDao resumeDao;
+
+    public ProfileCompletionService() {
+        this.eduDao = new EducationDaoImpl();
+        this.skillDao = new SkillDaoImpl();
+        this.resumeDao = new ResumeDaoImpl();
+    }
+
+    public ProfileCompletionService(EducationDao eduDao, SkillDao skillDao, ResumeDao resumeDao) {
+        this.eduDao = eduDao;
+        this.skillDao = skillDao;
+        this.resumeDao = resumeDao;
+    }
 
     public int getJobSeekerCompletion(int jobSeekerId) {
         int completion = 0;

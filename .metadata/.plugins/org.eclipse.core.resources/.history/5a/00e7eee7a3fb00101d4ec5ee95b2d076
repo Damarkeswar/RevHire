@@ -1,0 +1,5 @@
+package com.revhire.dao;
+
+public class EmployerDao {
+
+}

@@ -1,0 +1,36 @@
+package com.revhire.ui;
+
+import java.util.Scanner;
+
+public class JobSeekerDashboard {
+
+    public static void show(int jobSeekerId) {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Job Seeker Dashboard ===");
+            System.out.println("1. View Jobs");
+            System.out.println("2. Apply / View Applications");
+            System.out.println("3. Logout");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+                    // ✅ FIX: call view-only job menu
+                    JobSeekerJobMenu.show();
+                    break;
+
+                case 2:
+                    ApplicationMenu.showJobSeekerMenu(jobSeekerId);
+                    break;
+
+                case 3:
+                    System.out.println("👋 Logged out");
+                    return;
+            }
+        }
+    }
+}

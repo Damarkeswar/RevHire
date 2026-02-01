@@ -1,6 +1,7 @@
 package com.revhire.ui;
 
 import java.util.Scanner;
+import com.revhire.config.ScannerUtil;
 import com.revhire.model.Company;
 import com.revhire.service.CompanyService;
 import com.revhire.service.CompanyServiceImpl;
@@ -10,7 +11,7 @@ public class CompanyProfileMenu {
     private static CompanyService companyService = new CompanyServiceImpl();
 
     public static void show(int companyId) {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = ScannerUtil.getScanner();
 
         while (true) {
             Company company = companyService.getCompany(companyId);

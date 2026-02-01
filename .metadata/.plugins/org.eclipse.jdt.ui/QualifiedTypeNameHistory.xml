@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.revhire.dao.JobSeekerDaoImpl"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.EmployerDao"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.EmployerDaoImpl"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.ResumeDao"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.ResumeDaoImpl"/>
+    <fullyQualifiedTypeName name="com.revhire.config.DBConnection"/>
+    <fullyQualifiedTypeName name="com.revhire.model.Job"/>
+    <fullyQualifiedTypeName name="com.revhire.model.Application"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.CompanyDao"/>
+    <fullyQualifiedTypeName name="com.revhire.dao.CompanyDaoImpl"/>
+    <fullyQualifiedTypeName name="com.revhire.model.Company"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,103 @@
+package com.revhire.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revhire.config.DBConnection;
+import com.revhire.model.Application;
+
+public class ApplicationDaoImpl implements ApplicationDao {
+
+	@Override
+	public boolean applyJob(Application application) {
+
+		String sql = "INSERT INTO applications (job_id, job_seeker_id, resume_id, status) VALUES (?,?,?,?)";
+
+		try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, application.getJobId());
+			ps.setInt(2, application.getJobSeekerId());
+			ps.setInt(3, application.getResumeId());
+			ps.setString(4, "APPLIED");
+
+			return ps.executeUpdate() > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public List<Application> getApplicationsByJobSeeker(int jobSeekerId) {
+
+		List<Application> list = new ArrayList<>();
+		String sql = "SELECT * FROM applications WHERE job_seeker_id=?";
+
+		try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, jobSeekerId);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Application app = new Application();
+				app.setApplicationId(rs.getInt("application_id"));
+				app.setJobId(rs.getInt("job_id"));
+				app.setStatus(rs.getString("status"));
+				app.setAppliedDate(rs.getDate("applied_date"));
+
+				list.add(app);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public boolean updateApplicationStatus(int applicationId, String status, String comment) {
+
+		String sql = "UPDATE applications SET status=?, employer_comment=? WHERE application_id=?";
+
+		try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setString(1, status);
+			ps.setString(2, comment);
+			ps.setInt(3, applicationId);
+
+			return ps.executeUpdate() > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	@Override
+	public boolean withdrawApplication(int applicationId, String reason) {
+
+	    String sql = "
+	        UPDATE applications
+	        SET status = 'WITHDRAWN',
+	            employer_comment = ?
+	        WHERE application_id = ?
+	    """;
+
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+
+	        ps.setString(1, reason);
+	        ps.setInt(2, applicationId);
+
+	        return ps.executeUpdate() > 0;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
+}

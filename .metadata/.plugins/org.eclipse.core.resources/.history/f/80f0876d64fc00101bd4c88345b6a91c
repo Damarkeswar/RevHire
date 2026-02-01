@@ -1,0 +1,110 @@
+package com.revhire.dao;
+
+import java.sql.*;
+
+import com.revhire.config.DBConnection;
+import com.revhire.model.Company;
+
+public class CompanyDaoImpl implements CompanyDao {
+
+    @Override
+    public int createCompany(Company company) {
+
+        String sql = "INSERT INTO companies
+            (user_id, name, industry, size, description, website, location)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps =
+                con.prepareStatement(sql, new String[]{"company_id"})) {
+
+            ps.setInt(1, company.getUserId());
+            ps.setString(2, company.getName());
+            ps.setString(3, company.getIndustry());
+            ps.setInt(4, company.getSize());
+            ps.setString(5, company.getDescription());
+            ps.setString(6, company.getWebsite());
+            ps.setString(7, company.getLocation());
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public Company getCompanyById(int companyId) {
+
+        String sql = "SELECT * FROM companies WHERE company_id = ?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, companyId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Company c = new Company();
+                c.setCompanyId(rs.getInt("company_id"));
+                c.setName(rs.getString("name"));
+                c.setIndustry(rs.getString("industry"));
+                c.setSize(rs.getInt("size"));
+                c.setDescription(rs.getString("description"));
+                c.setWebsite(rs.getString("website"));
+                c.setLocation(rs.getString("location"));
+                return c;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateCompany(Company company) {
+
+        String sql = "UPDATE companies SET name=?, industry=?, size=?, description=?, website=?, location=? WHERE company_id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, company.getName());
+            ps.setString(2, company.getIndustry());
+            ps.setInt(3, company.getSize());
+            ps.setString(4, company.getDescription());
+            ps.setString(5, company.getWebsite());
+            ps.setString(6, company.getLocation());
+            ps.setInt(7, company.getCompanyId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public int getCompanyIdByUserId(int userId) {
+
+        String sql = "SELECT company_id FROM companies WHERE user_id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}

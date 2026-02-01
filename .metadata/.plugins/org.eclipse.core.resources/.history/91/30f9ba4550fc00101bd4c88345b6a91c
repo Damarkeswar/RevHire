@@ -1,0 +1,28 @@
+package com.revhire.ui;
+
+import java.util.Scanner;
+
+public class EducationMenu {
+
+    public static void add(int jobSeekerId) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\n=== Add Education ===");
+
+        System.out.print("Degree: ");
+        String degree = sc.nextLine();
+
+        System.out.print("Institution: ");
+        String institution = sc.nextLine();
+
+        System.out.print("Start Year: ");
+        int startYear = sc.nextInt();
+
+        System.out.print("End Year: ");
+        int endYear = sc.nextInt();
+
+        // For now, just simulate save (DB DAO can be added later)
+        System.out.println("✅ Education added successfully");
+    }
+}

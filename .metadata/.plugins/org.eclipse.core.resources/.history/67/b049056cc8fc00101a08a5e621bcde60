@@ -1,0 +1,79 @@
+package com.revhire.service;
+
+import com.revhire.dao.CompanyDao;
+import com.revhire.dao.CompanyDaoImpl;
+import com.revhire.dao.JobSeekerDao;
+import com.revhire.dao.JobSeekerDaoImpl;
+import com.revhire.dao.UserDao;
+import com.revhire.dao.UserDaoImpl;
+import com.revhire.model.Company;
+import com.revhire.model.User;
+
+public class AuthServiceImpl implements AuthService {
+
+    private UserDao userDao = new UserDaoImpl();
+
+    @Override
+    public boolean register(User user) {
+
+        // 1. Insert user & get user_id
+        int userId = userDao.registerUser(user);
+
+        if (userId == 0) {
+            System.out.println("❌ User registration failed");
+            return false;
+        }
+
+        // 2. JOB SEEKER
+        if ("JOB_SEEKER".equalsIgnoreCase(user.getRole())) {
+
+            JobSeekerDao jsDao = new JobSeekerDaoImpl();
+            jsDao.createJobSeeker(userId, user.getEmail());
+        }
+
+        // 3. EMPLOYER
+        if ("EMPLOYER".equalsIgnoreCase(user.getRole())) {
+
+            Company company = new Company();
+            company.setEmployerId(userId); // ✅ GUARANTEED parent
+            company.setCompanyName("Not Updated");
+            company.setIndustry("Not Updated");
+            company.setCompanySize(0);
+            company.setDescription("Not Updated");
+            company.setWebsite("Not Updated");
+            company.setLocation("Not Updated");
+
+            CompanyDao companyDao = new CompanyDaoImpl();
+            int companyId = companyDao.createCompany(company);
+
+            if (companyId == 0) {
+                System.out.println("❌ Company creation failed");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public User login(String email, String password) {
+
+        if (email.isEmpty() || password.isEmpty()) {
+            System.out.println("❌ Invalid login credentials");
+            return null;
+        }
+
+        return userDao.login(email, password);
+    }
+
+    @Override
+    public boolean changePassword(int userId, String newPassword) {
+
+        if (newPassword.length() < 4) {
+            System.out.println("❌ Password too short");
+            return false;
+        }
+
+        return userDao.changePassword(userId, newPassword);
+    }
+}

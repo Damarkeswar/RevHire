@@ -1,0 +1,30 @@
+package com.revhire.ui;
+
+import java.util.Scanner;
+
+public class ProfileMenu {
+
+    public static void show(int jobSeekerId) {
+
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=== Manage Profile ===");
+            System.out.println("1. Add Education");
+            System.out.println("2. Add Experience");
+            System.out.println("3. Add Skills");
+            System.out.println("4. Add Certifications");
+            System.out.println("5. Back");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 : EducationMenu.add(jobSeekerId);
+                case 2 : ExperienceMenu.add(jobSeekerId);
+                case 3 : SkillMenu.add(jobSeekerId);
+                case 4 : CertificationMenu.add(jobSeekerId);
+                case 5 -> { return; }
+            }
+        }
+    }
+}

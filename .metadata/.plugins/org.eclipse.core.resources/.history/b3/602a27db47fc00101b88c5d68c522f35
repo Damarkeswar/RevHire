@@ -1,0 +1,11 @@
+package com.revhire.service;
+
+import java.util.List;
+import com.revhire.model.Job;
+
+public interface JobService {
+
+    boolean postJob(Job job);
+
+    List<Job> viewAllJobs();
+}

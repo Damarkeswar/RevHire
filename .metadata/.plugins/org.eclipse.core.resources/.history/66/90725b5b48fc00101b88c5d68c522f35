@@ -1,0 +1,43 @@
+package com.revhire.service;
+
+import java.util.List;
+
+import com.revhire.dao.ApplicationDao;
+import com.revhire.dao.ApplicationDaoImpl;
+import com.revhire.dao.ResumeDao;
+import com.revhire.dao.ResumeDaoImpl;
+import com.revhire.model.Application;
+
+public class ApplicationServiceImpl implements ApplicationService {
+
+	private ApplicationDao applicationDao = new ApplicationDaoImpl();
+
+	@Override
+	public boolean applyForJob(Application application) {
+
+	    ResumeDao resumeDao = new ResumeDaoImpl();
+
+	    int resumeId =
+	        resumeDao.getLatestResumeId(application.getJobSeekerId());
+
+	    if (resumeId == 0) {
+	        System.out.println("❌ No resume found. Please create a resume first.");
+	        return false;
+	    }
+
+	    application.setResumeId(resumeId);
+
+	    return applicationDao.applyJob(application);
+	}
+
+
+	@Override
+	public List<Application> viewMyApplications(int jobSeekerId) {
+		return applicationDao.getApplicationsByJobSeeker(jobSeekerId);
+	}
+
+	@Override
+	public boolean changeStatus(int applicationId, String status, String comment) {
+		return applicationDao.updateApplicationStatus(applicationId, status, comment);
+	}
+}
