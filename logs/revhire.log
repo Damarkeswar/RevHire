@@ -1,0 +1,10 @@
+2026-01-29 20:16:28.133 [main] INFO  com.revhire.service.AuthServiceImpl - User logged in: m@gmail.com (Role: JOB_SEEKER)
+2026-01-29 20:27:29.834 [main] INFO  com.revhire.service.ApplicationServiceImpl - Application submitted: Seeker ID 24 for Job ID 23
+2026-01-29 21:36:24.074 [main] WARN  com.revhire.service.AuthServiceImpl - Failed login attempt for email: invalid@test.com
+2026-01-29 21:36:24.114 [main] WARN  com.revhire.service.AuthServiceImpl - Login attempt with empty credentials
+2026-02-01 10:26:05.390 [main] WARN  com.revhire.service.AuthServiceImpl - Failed login attempt for email: invalid@test.com
+2026-02-01 10:26:05.446 [main] WARN  com.revhire.service.AuthServiceImpl - Login attempt with empty credentials
+2026-02-01 11:09:56.030 [main] WARN  com.revhire.service.AuthServiceImpl - Failed login attempt for email: invalid@test.com
+2026-02-01 11:09:56.110 [main] WARN  com.revhire.service.AuthServiceImpl - Login attempt with empty credentials
+2026-02-01 11:14:26.635 [main] INFO  com.revhire.service.AuthServiceImpl - User logged in: m@gmail.com (Role: JOB_SEEKER)
+2026-02-01 13:25:40.309 [main] INFO  com.revhire.service.AuthServiceImpl - User registered successfully: manu@gmail.com with role: JOB_SEEKER

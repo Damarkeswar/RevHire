@@ -1,6 +1,0 @@
-package com.revhire.dao;
-
-public interface ResumeDao {
-
-    int getLatestResumeId(int jobSeekerId);
-}

@@ -1,5 +1,0 @@
-package com.revhire.dao;
-
-public interface EmployerDao {
-	int getCompanyIdByUserId(int userId);
-}

@@ -1,5 +1,0 @@
-package com.revhire.dao;
-
-public interface ProjectDao {
-
-}
