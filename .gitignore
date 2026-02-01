@@ -4,6 +4,7 @@ target/
 .classpath
 .project
 .DS_Store
-logs/
+logs/*
+!logs/.gitkeep
 bin/
 *.log
