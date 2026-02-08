@@ -5,11 +5,19 @@ import com.revhire.dao.EducationDaoImpl;
 
 public class EducationServiceImpl implements EducationService {
 
-    private EducationDao educationDao = new EducationDaoImpl();
+    private EducationDao educationDao;
+
+    public EducationServiceImpl() {
+        this.educationDao = new EducationDaoImpl();
+    }
+
+    public EducationServiceImpl(EducationDao educationDao) {
+        this.educationDao = educationDao;
+    }
 
     @Override
     public boolean addEducation(int jobSeekerId, String degree,
-                                String institution, int startYear, int endYear) {
+            String institution, int startYear, int endYear) {
 
         if (degree == null || degree.isEmpty()) {
             System.out.println("❌ Degree cannot be empty");
@@ -17,7 +25,6 @@ public class EducationServiceImpl implements EducationService {
         }
 
         return educationDao.addEducation(
-            jobSeekerId, degree, institution, startYear, endYear
-        );
+                jobSeekerId, degree, institution, startYear, endYear);
     }
 }

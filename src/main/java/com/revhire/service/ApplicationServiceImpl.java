@@ -10,12 +10,28 @@ import com.revhire.model.Application;
 
 public class ApplicationServiceImpl implements ApplicationService {
 
-	private ApplicationDao applicationDao = new ApplicationDaoImpl();
+	private ApplicationDao applicationDao;
+	private ResumeDao resumeDao;
+	private NotificationService notificationService;
+	private JobService jobService;
+
+	public ApplicationServiceImpl() {
+		this.applicationDao = new ApplicationDaoImpl();
+		this.resumeDao = new ResumeDaoImpl();
+		this.notificationService = new NotificationServiceImpl();
+		this.jobService = new JobServiceImpl();
+	}
+
+	public ApplicationServiceImpl(ApplicationDao applicationDao, ResumeDao resumeDao,
+			NotificationService notificationService, JobService jobService) {
+		this.applicationDao = applicationDao;
+		this.resumeDao = resumeDao;
+		this.notificationService = notificationService;
+		this.jobService = jobService;
+	}
 
 	@Override
 	public boolean applyForJob(Application application) {
-
-		ResumeDao resumeDao = new ResumeDaoImpl();
 
 		int resumeId = resumeDao.getLatestResumeId(application.getJobSeekerId());
 
@@ -25,17 +41,16 @@ public class ApplicationServiceImpl implements ApplicationService {
 		}
 
 		application.setResumeId(resumeId);
-		NotificationService ns = new NotificationServiceImpl();
-		ns.notifyJobSeeker(
+		notificationService.notifyJobSeeker(
 				application.getJobSeekerId(),
 				"You have successfully applied for Job ID: " + application.getJobId());
 
 		boolean result = applicationDao.applyJob(application);
 		if (result) {
-			JobService jobService = new JobServiceImpl();
 			com.revhire.model.Job job = jobService.getJobById(application.getJobId());
 			if (job != null) {
-				ns.notifyEmployer(job.getCompanyId(), "New application received for Job: " + job.getTitle());
+				notificationService.notifyEmployer(job.getCompanyId(),
+						"New application received for Job: " + job.getTitle());
 			}
 		}
 		return result;
@@ -52,8 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		if (updated) {
 			int jsId = applicationDao.getJobSeekerIdByApplicationId(applicationId);
 			if (jsId > 0) {
-				NotificationService ns = new NotificationServiceImpl();
-				ns.notifyJobSeeker(jsId, "Your application status has been updated to: " + status);
+				notificationService.notifyJobSeeker(jsId, "Your application status has been updated to: " + status);
 			}
 		}
 		return updated;
@@ -80,13 +94,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 		boolean updated = applicationDao.withdrawApplication(applicationId, reason);
 
 		if (updated) {
-			NotificationService ns = new NotificationServiceImpl();
-			ns.notifyJobSeeker(app.getJobSeekerId(), "Your application (ID: " + applicationId + ") has been WITHDRAWN");
+			notificationService.notifyJobSeeker(app.getJobSeekerId(),
+					"Your application (ID: " + applicationId + ") has been WITHDRAWN");
 
-			JobService jobService = new JobServiceImpl();
 			com.revhire.model.Job job = jobService.getJobById(app.getJobId());
 			if (job != null) {
-				ns.notifyEmployer(job.getCompanyId(), "Application withdrawn for Job: " + job.getTitle());
+				notificationService.notifyEmployer(job.getCompanyId(),
+						"Application withdrawn for Job: " + job.getTitle());
 			}
 		}
 

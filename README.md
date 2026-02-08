@@ -29,19 +29,114 @@ The application manages complex relationships between users, companies, jobs, an
 
 ```mermaid
 erDiagram
-    USERS ||--o| JOB_SEEKERS : "is a"
-    USERS ||--o| EMPLOYERS : "is a"
-    EMPLOYERS ||--o| COMPANIES : "manages"
+    USERS ||--o| JOB_SEEKERS : "specializes as"
+    USERS ||--o| EMPLOYERS : "specializes as"
+    EMPLOYERS ||--o{ COMPANIES : "manages"
     COMPANIES ||--o{ JOBS : "posts"
-    JOB_SEEKERS ||--o{ RESUMES : "has"
-    JOBS ||--o{ APPLICATIONS : "receives"
+    
+    JOB_SEEKERS ||--o{ RESUMES : "creates"
     JOB_SEEKERS ||--o{ APPLICATIONS : "submits"
-    RESUMES ||--o{ APPLICATIONS : "used in"
+    JOB_SEEKERS ||--o{ EDUCATION : "has"
+    JOB_SEEKERS ||--o{ EXPERIENCE : "has"
+    JOB_SEEKERS ||--o{ SKILLS : "possesses"
+    JOB_SEEKERS ||--o{ CERTIFICATIONS : "achieves"
+    JOB_SEEKERS ||--o{ PROJECTS : "completes"
     JOB_SEEKERS ||--o{ NOTIFICATIONS : "receives"
+
+    JOBS ||--o{ APPLICATIONS : "receives"
+    RESUMES ||--o{ APPLICATIONS : "used in"
+
+    USERS {
+        int user_id PK
+        string email UK
+        string password_hash
+        string role
+        boolean is_active
+        timestamp created_at
+        string security_question
+        string security_answer
+    }
+
+    JOB_SEEKERS {
+        int seeker_id PK
+        int user_id FK
+        string full_name
+        string phone
+        int total_experience
+    }
+
+    JOBS {
+        int job_id PK
+        int company_id FK
+        string title
+        string description
+        string skills_required
+        int min_experience
+        double salary_min
+        double salary_max
+        string job_type
+        date deadline
+        string status
+    }
+
+    APPLICATIONS {
+        int application_id PK
+        int job_id FK
+        int seeker_id FK
+        int resume_id FK
+        string status
+        date applied_date
+        string employer_comment
+    }
 ```
 
-### 3-Tier Layered Architecture
+### 🏗️ 3-Tier Layered Architecture
 RevHire follows a strictly decoupled architecture to ensure maintainability and scalability:
+
+```mermaid
+graph TD
+    subgraph "Presentation Layer (UI)"
+        MM[MainMenu]
+        JSD[JobSeekerDashboard]
+        ED[EmployerDashboard]
+        Menus[Specific Menus: Job, Profile, Resume, etc.]
+    end
+
+    subgraph "Service Layer (Business Logic)"
+        JS[JobService]
+        USS[UserService]
+        RS[ResumeService]
+        AS[ApplicationService]
+        NS[NotificationService]
+    end
+
+    subgraph "Data Access Layer (DAO)"
+        JDAO[JobDAO]
+        UDAO[UserDAO]
+        RDAO[ResumeDAO]
+        ADAO[ApplicationDAO]
+        NDAO[NotificationDAO]
+    end
+
+    subgraph "Models & Config"
+        Model[POJO Entities]
+        DBConfig[DBConnection Singleton]
+    end
+
+    MM --> JSD
+    MM --> ED
+    JSD --> Menus
+    ED --> Menus
+    Menus --> JS
+    Menus --> USS
+    
+    JS & USS & RS & AS & NS --> JDAO
+    JS & USS & RS & AS & NS --> UDAO
+    JS & USS & RS & AS & NS --> RDAO
+    
+    JDAO & UDAO & RDAO & ADAO & NDAO --> DBConfig
+    DBConfig --> DB[(Oracle DB)]
+```
 
 1.  **Presentation Layer (`com.revhire.ui`)**: Interactive console UI handling user I/O.
 2.  **Service Layer (`com.revhire.service`)**: Business logic, validation, and orchestration.

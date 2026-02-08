@@ -14,7 +14,15 @@ import org.apache.logging.log4j.Logger;
 public class AuthServiceImpl implements AuthService {
 
     private static final Logger logger = LogManager.getLogger(AuthServiceImpl.class);
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao;
+
+    public AuthServiceImpl() {
+        this.userDao = new UserDaoImpl();
+    }
+
+    public AuthServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public boolean register(User user) {

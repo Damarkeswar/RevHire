@@ -5,7 +5,15 @@ import com.revhire.dao.ResumeDaoImpl;
 
 public class ResumeServiceImpl implements ResumeService {
 
-    private ResumeDao resumeDao = new ResumeDaoImpl();
+    private ResumeDao resumeDao;
+
+    public ResumeServiceImpl() {
+        this.resumeDao = new ResumeDaoImpl();
+    }
+
+    public ResumeServiceImpl(ResumeDao resumeDao) {
+        this.resumeDao = resumeDao;
+    }
 
     @Override
     public int createResume(int jobSeekerId, String objective) {

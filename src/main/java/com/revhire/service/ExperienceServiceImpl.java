@@ -5,14 +5,21 @@ import com.revhire.dao.ExperienceDaoImpl;
 
 public class ExperienceServiceImpl implements ExperienceService {
 
-    private ExperienceDao experienceDao =
-            new ExperienceDaoImpl();
+    private ExperienceDao experienceDao;
+
+    public ExperienceServiceImpl() {
+        this.experienceDao = new ExperienceDaoImpl();
+    }
+
+    public ExperienceServiceImpl(ExperienceDao experienceDao) {
+        this.experienceDao = experienceDao;
+    }
 
     @Override
     public boolean addExperience(int jobSeekerId,
-                                 String companyName,
-                                 String role,
-                                 int years) {
+            String companyName,
+            String role,
+            int years) {
 
         if (companyName == null || companyName.isEmpty()) {
             System.out.println("❌ Company name cannot be empty");
@@ -20,7 +27,6 @@ public class ExperienceServiceImpl implements ExperienceService {
         }
 
         return experienceDao.addExperience(
-            jobSeekerId, companyName, role, years
-        );
+                jobSeekerId, companyName, role, years);
     }
 }

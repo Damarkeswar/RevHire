@@ -5,13 +5,20 @@ import com.revhire.dao.SkillDaoImpl;
 
 public class SkillServiceImpl implements SkillService {
 
-    private SkillDao skillDao =
-            new SkillDaoImpl();
+    private SkillDao skillDao;
+
+    public SkillServiceImpl() {
+        this.skillDao = new SkillDaoImpl();
+    }
+
+    public SkillServiceImpl(SkillDao skillDao) {
+        this.skillDao = skillDao;
+    }
 
     @Override
     public boolean addSkill(int jobSeekerId,
-                            String skillName,
-                            String proficiency) {
+            String skillName,
+            String proficiency) {
 
         if (skillName == null || skillName.isEmpty()) {
             System.out.println("❌ Skill name cannot be empty");
@@ -19,7 +26,6 @@ public class SkillServiceImpl implements SkillService {
         }
 
         return skillDao.addSkill(
-            jobSeekerId, skillName, proficiency
-        );
+                jobSeekerId, skillName, proficiency);
     }
 }

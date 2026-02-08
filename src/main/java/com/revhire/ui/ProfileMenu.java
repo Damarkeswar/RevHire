@@ -19,11 +19,21 @@ public class ProfileMenu {
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 1 : EducationMenu.add(jobSeekerId); break;
-                case 2 : ExperienceMenu.add(jobSeekerId);break;
-                case 3 : SkillMenu.add(jobSeekerId);break;
-                case 4 : CertificationMenu.add(jobSeekerId);break;
-                case 5 : { return; }
+                case 1:
+                    EducationMenu.add(jobSeekerId);
+                    break;
+                case 2:
+                    ExperienceMenu.add(jobSeekerId);
+                    break;
+                case 3:
+                    SkillMenu.add(jobSeekerId);
+                    break;
+                case 4:
+                    CertificationMenu.add(jobSeekerId);
+                    break;
+                case 5: {
+                    return;
+                }
             }
         }
     }

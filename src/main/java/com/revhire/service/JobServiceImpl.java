@@ -5,13 +5,43 @@ import java.util.List;
 import com.revhire.dao.JobDao;
 import com.revhire.dao.JobDaoImpl;
 import com.revhire.model.Job;
+import com.revhire.dao.EducationDao;
+import com.revhire.dao.EducationDaoImpl;
+import com.revhire.dao.JobSeekerDao;
+import com.revhire.dao.JobSeekerDaoImpl;
+import com.revhire.dao.SkillDao;
+import com.revhire.dao.SkillDaoImpl;
+import com.revhire.model.Education;
+import com.revhire.model.JobSeeker;
+import com.revhire.model.Skill;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class JobServiceImpl implements JobService {
 
 	private static final Logger logger = LogManager.getLogger(JobServiceImpl.class);
-	private JobDao jobDao = new JobDaoImpl();
+	private JobDao jobDao;
+	private JobSeekerDao jsDao;
+	private SkillDao skillDao;
+	private EducationDao eduDao;
+	private NotificationService notificationService;
+
+	public JobServiceImpl() {
+		this.jobDao = new JobDaoImpl();
+		this.jsDao = new JobSeekerDaoImpl();
+		this.skillDao = new SkillDaoImpl();
+		this.eduDao = new EducationDaoImpl();
+		this.notificationService = new NotificationServiceImpl();
+	}
+
+	public JobServiceImpl(JobDao jobDao, JobSeekerDao jsDao, SkillDao skillDao, EducationDao eduDao,
+			NotificationService notificationService) {
+		this.jobDao = jobDao;
+		this.jsDao = jsDao;
+		this.skillDao = skillDao;
+		this.eduDao = eduDao;
+		this.notificationService = notificationService;
+	}
 
 	@Override
 	public boolean postJob(Job job) {
@@ -24,22 +54,17 @@ public class JobServiceImpl implements JobService {
 		boolean result = jobDao.postJob(job);
 		if (result) {
 			logger.info("Job posted: {} by Company ID: {}", job.getTitle(), job.getCompanyId());
-			NotificationService ns = new NotificationServiceImpl();
-			ns.notifyEmployer(job.getCompanyId(), "Job posted successfully: " + job.getTitle());
+			notificationService.notifyEmployer(job.getCompanyId(), "Job posted successfully: " + job.getTitle());
 
 			// Notify matching job seekers
-			com.revhire.dao.JobSeekerDao jsDao = new com.revhire.dao.JobSeekerDaoImpl();
-			com.revhire.dao.SkillDao skillDao = new com.revhire.dao.SkillDaoImpl();
-			com.revhire.dao.EducationDao eduDao = new com.revhire.dao.EducationDaoImpl();
-
-			List<com.revhire.model.JobSeeker> allSeekers = jsDao.getAllJobSeekers();
-			for (com.revhire.model.JobSeeker js : allSeekers) {
+			List<JobSeeker> allSeekers = jsDao.getAllJobSeekers();
+			for (JobSeeker js : allSeekers) {
 				boolean match = false;
 
 				// Skill match
 				if (job.getSkills() != null) {
-					List<com.revhire.model.Skill> jsSkills = skillDao.getSkillsByJobSeeker(js.getJobSeekerId());
-					for (com.revhire.model.Skill s : jsSkills) {
+					List<Skill> jsSkills = skillDao.getSkillsByJobSeeker(js.getJobSeekerId());
+					for (Skill s : jsSkills) {
 						if (job.getSkills().toLowerCase().contains(s.getSkillName().toLowerCase())) {
 							match = true;
 							break;
@@ -49,8 +74,8 @@ public class JobServiceImpl implements JobService {
 
 				// If not matched by skills, check education
 				if (!match && job.getEducationRequired() != null) {
-					List<com.revhire.model.Education> jsEdus = eduDao.getEducationByJobSeeker(js.getJobSeekerId());
-					for (com.revhire.model.Education e : jsEdus) {
+					List<Education> jsEdus = eduDao.getEducationByJobSeeker(js.getJobSeekerId());
+					for (Education e : jsEdus) {
 						if (job.getEducationRequired().toLowerCase().contains(e.getDegree().toLowerCase())) {
 							match = true;
 							break;
@@ -59,7 +84,7 @@ public class JobServiceImpl implements JobService {
 				}
 
 				if (match) {
-					ns.notifyJobSeeker(js.getJobSeekerId(),
+					notificationService.notifyJobSeeker(js.getJobSeekerId(),
 							"A new job matching your profile was posted: " + job.getTitle());
 				}
 			}
@@ -97,8 +122,7 @@ public class JobServiceImpl implements JobService {
 		boolean updated = jobDao.updateJob(job);
 		if (updated) {
 			logger.info("Job updated: ID {} - {}", job.getJobId(), job.getTitle());
-			NotificationService ns = new NotificationServiceImpl();
-			ns.notifyEmployer(job.getCompanyId(), "Job updated: " + job.getTitle());
+			notificationService.notifyEmployer(job.getCompanyId(), "Job updated: " + job.getTitle());
 		} else {
 			logger.warn("Failed to update job: ID {}", job.getJobId());
 		}
@@ -117,11 +141,8 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public List<Job> getMatchingJobs(int jobSeekerId) {
-		com.revhire.dao.SkillDao skillDao = new com.revhire.dao.SkillDaoImpl();
-		com.revhire.dao.EducationDao eduDao = new com.revhire.dao.EducationDaoImpl();
-
-		List<com.revhire.model.Skill> seekerSkills = skillDao.getSkillsByJobSeeker(jobSeekerId);
-		List<com.revhire.model.Education> seekerEdu = eduDao.getEducationByJobSeeker(jobSeekerId);
+		List<Skill> seekerSkills = skillDao.getSkillsByJobSeeker(jobSeekerId);
+		List<Education> seekerEdu = eduDao.getEducationByJobSeeker(jobSeekerId);
 
 		// Simple matching: any job where skills_required contains one of our skills
 		// or education_required matches our degree.
@@ -131,7 +152,7 @@ public class JobServiceImpl implements JobService {
 		for (Job job : allJobs) {
 			boolean skillMatch = false;
 			if (job.getSkills() != null) {
-				for (com.revhire.model.Skill s : seekerSkills) {
+				for (Skill s : seekerSkills) {
 					if (job.getSkills().toLowerCase().contains(s.getSkillName().toLowerCase())) {
 						skillMatch = true;
 						break;
@@ -141,7 +162,7 @@ public class JobServiceImpl implements JobService {
 
 			boolean eduMatch = false;
 			if (job.getEducationRequired() != null) {
-				for (com.revhire.model.Education e : seekerEdu) {
+				for (Education e : seekerEdu) {
 					if (job.getEducationRequired().toLowerCase().contains(e.getDegree().toLowerCase())) {
 						eduMatch = true;
 						break;

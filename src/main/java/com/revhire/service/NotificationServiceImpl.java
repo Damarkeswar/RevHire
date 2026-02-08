@@ -7,7 +7,15 @@ import com.revhire.dao.NotificationDaoImpl;
 
 public class NotificationServiceImpl implements NotificationService {
 
-    private NotificationDao notificationDao = new NotificationDaoImpl();
+    private NotificationDao notificationDao;
+
+    public NotificationServiceImpl() {
+        this.notificationDao = new NotificationDaoImpl();
+    }
+
+    public NotificationServiceImpl(NotificationDao notificationDao) {
+        this.notificationDao = notificationDao;
+    }
 
     @Override
     public void notifyJobSeeker(int jobSeekerId, String message) {

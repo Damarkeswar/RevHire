@@ -5,13 +5,20 @@ import com.revhire.dao.ProjectDaoImpl;
 
 public class ProjectServiceImpl implements ProjectService {
 
-    private ProjectDao projectDao =
-            new ProjectDaoImpl();
+    private ProjectDao projectDao;
+
+    public ProjectServiceImpl() {
+        this.projectDao = new ProjectDaoImpl();
+    }
+
+    public ProjectServiceImpl(ProjectDao projectDao) {
+        this.projectDao = projectDao;
+    }
 
     @Override
     public boolean addProject(int resumeId,
-                              String title,
-                              String description) {
+            String title,
+            String description) {
 
         if (resumeId <= 0) {
             System.out.println("❌ Invalid resume");

@@ -7,7 +7,15 @@ import com.revhire.dao.ResumeViewDaoImpl;
 
 public class ResumeViewServiceImpl implements ResumeViewService {
 
-    private ResumeViewDao dao = new ResumeViewDaoImpl();
+    private ResumeViewDao dao;
+
+    public ResumeViewServiceImpl() {
+        this.dao = new ResumeViewDaoImpl();
+    }
+
+    public ResumeViewServiceImpl(ResumeViewDao dao) {
+        this.dao = dao;
+    }
 
     @Override
     public String getObjective(int resumeId) {

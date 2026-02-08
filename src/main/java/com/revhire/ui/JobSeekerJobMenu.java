@@ -33,11 +33,10 @@ public class JobSeekerJobMenu {
                         System.out.println("\n--- Job Listings ---");
                         for (Job j : jobs) {
                             System.out.println(
-                                j.getJobId() + " | " +
-                                j.getTitle() + " | " +
-                                j.getLocation() + " | " +
-                                j.getSalaryMin() + " - " + j.getSalaryMax()
-                            );
+                                    j.getJobId() + " | " +
+                                            j.getTitle() + " | " +
+                                            j.getLocation() + " | " +
+                                            j.getSalaryMin() + " - " + j.getSalaryMax());
                         }
                     }
                     break;
