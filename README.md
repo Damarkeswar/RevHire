@@ -1,24 +1,41 @@
 # RevHire - Job Portal Application
 
-RevHire is a robust, console-based job portal application designed to bridge the gap between talented job seekers and leading employers. Built with a clean 3-tier architecture, it provides a seamless experience for managing job postings, profile building, and the recruitment process.
+## 📝 Application Overview
+RevHire is a console-based job portal application that connects job seekers with employers. Job seekers can create profiles, build resumes, search for jobs, and apply to positions. Employers can post job openings, manage applications, and shortlist/reject candidates. The application is designed with a modular architecture that can be extended to a microservices-based web application in future phases.
 
 ---
 
-## 🚀 Key Features
+## 🎯 Core Functional Requirements
 
 ### 👤 For Job Seekers
-- **Authentication**: Secure registration and login with password recovery using security questions.
-- **Profile Management**: Build a comprehensive professional profile including Education, Experience, Skills, and Certifications.
-- **Resume Management**: Create and maintain detailed resumes.
-- **Job Search**: Advanced filtering system to find jobs by title, location, experience, and salary.
-- **One-Click Apply**: Easily apply to jobs using saved profiles and track application status in real-time.
-- **Notifications**: Stay updated with in-app alerts for application status changes.
+- **Authentication**: Register and create an account with personal details; Login securely.
+- **Resume Management**: Create and manage textual resumes with structured sections (objective, education, experience, skills, projects).
+- **Job Search**: Advanced filtering by job role, location, experience years, company name, salary range, and job type.
+- **Applications**: One-click apply using saved resumes; View application status (Applied/Shortlisted/Rejected/Withdrawn).
+- **Withdrawal**: Withdraw applications with confirmation and optional reasons.
+- **Profile Management**: Manage comprehensive details including education, work experience, skills, and certifications.
+- **Notifications**: Receive in-app alerts for application status updates and job matches.
 
 ### 🏢 For Employers
-- **Organization Management**: Register and manage company profiles and industry details.
-- **Job Lifecycle**: Full control over job postings—create, edit, close, or reopen listings.
-- **Applicant Tracking**: View detailed applicant profiles, shortlist candidates, or reject with feedback.
-- **Applicant Search**: Filter through applicants to find the perfect fit for specific roles.
+- **Organization Management**: Register company and create account with details (name, industry, size, description, website, location).
+- **Job Lifecycle**: Create, view, edit, close/reopen, or delete job postings.
+- **Applicant Tracking**: View detailed applicant profiles, resumes, and application dates.
+- **Decision Management**: Shortlist or reject applications with comments and status updates.
+- **Statistics**: View statistics for each job posting to track recruitment progress.
+- **Search**: Search and filter applicants by experience, skills, education, and application date.
+
+---
+
+## 🛠️ Standard Functional Scope
+
+### Authentication & Account Management
+- **Register**: Separate flows for job seekers and employers.
+- **Login**: Secure access using email and password.
+- **Security**: Change password (requires current) and reset password via security questions.
+- **Profile Tracking**: Real-time profile completion tracking.
+
+### Notification System
+- In-app notifications for application status changes, new applications, and automated job matches.
 
 ---
 
@@ -93,50 +110,7 @@ erDiagram
 ### 🏗️ 3-Tier Layered Architecture
 RevHire follows a strictly decoupled architecture to ensure maintainability and scalability:
 
-```mermaid
-graph TD
-    subgraph "Presentation Layer (UI)"
-        MM[MainMenu]
-        JSD[JobSeekerDashboard]
-        ED[EmployerDashboard]
-        Menus[Specific Menus: Job, Profile, Resume, etc.]
-    end
-
-    subgraph "Service Layer (Business Logic)"
-        JS[JobService]
-        USS[UserService]
-        RS[ResumeService]
-        AS[ApplicationService]
-        NS[NotificationService]
-    end
-
-    subgraph "Data Access Layer (DAO)"
-        JDAO[JobDAO]
-        UDAO[UserDAO]
-        RDAO[ResumeDAO]
-        ADAO[ApplicationDAO]
-        NDAO[NotificationDAO]
-    end
-
-    subgraph "Models & Config"
-        Model[POJO Entities]
-        DBConfig[DBConnection Singleton]
-    end
-
-    MM --> JSD
-    MM --> ED
-    JSD --> Menus
-    ED --> Menus
-    Menus --> JS
-    Menus --> USS
-    
-    JS & USS & RS & AS & NS --> JDAO
-    JS & USS & RS & AS & NS --> UDAO
-    JS & USS & RS & AS & NS --> RDAO
-    
-    JDAO & UDAO & RDAO & ADAO & NDAO --> DBConfig
-    DBConfig --> DB[(Oracle DB)]
-```
+![Application Architecture Diagram](assets/Application%20Architecture%20Diagram.png)
 
 1.  **Presentation Layer (`com.revhire.ui`)**: Interactive console UI handling user I/O.
 2.  **Service Layer (`com.revhire.service`)**: Business logic, validation, and orchestration.
@@ -202,10 +176,20 @@ Tests utilize **Mockito** for mocking DAOs and services, ensuring isolation and 
 Systems logs and audits are maintained in:
 - **Console Output**: Real-time operational feedback.
 - **File Log**: Detailed logs at `logs/revhire.log`.
+- **Daily Rotation**: Logs are automatically archived daily in the format `logs/revhire-YYYY-MM-DD.log`.
 
 Configuration is managed via `src/main/resources/log4j2.xml`.
 
 ---
 
+## ✅ Definition of Done
+- [x] Working Console Application Demonstration.
+- [x] Comprehensive ERD Diagram (Mermaid).
+- [x] 3-Tier Application Architecture Diagram (Mermaid).
+- [x] Unit Test Suite with JUnit 5 & Mockito.
+- [x] Log4j 2 Integration for structured auditing.
+
+---
+
 ## 👨‍💻 Author
-**Lead Developer** - RevHire Team
+**Damarkeswar Reddy** - *Full Stack Developer & Architect*

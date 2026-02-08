@@ -5,27 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="83618a7e-04e6-45f4-9431-f0135e2d08b8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/untitled/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RevHire.iml" beforeDir="false" afterPath="$PROJECT_DIR$/RevHire.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/revhire.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/revhire.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DOCS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DOCUMENTATION.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/revhire.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/revhire/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/ApplicationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/ApplicationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/AuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/AuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/CertificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/CertificationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/CompanyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/CompanyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/EducationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/EducationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/ExperienceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/ExperienceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/JobServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/JobServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/NotificationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/NotificationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/ProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/ResumeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/ResumeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/ResumeViewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/ResumeViewServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/service/SkillServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/service/SkillServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/ui/JobSeekerJobMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/ui/JobSeekerJobMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revhire/ui/ProfileMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revhire/ui/ProfileMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/revhire/service/AuthServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/revhire/service/AuthServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/revhire/service/JobServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/revhire/service/JobServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/revhire/DOCS.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/untitled/pom.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,32 +32,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MainMenu.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MainMenu.java.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ApplicationServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EducationServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.JobServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ProfileCompletionServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.untitled [compile].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/RevHire&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/RevHire/src/main/java/org/revhire/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MainMenu.executor": "Run",
+    "Application.MainMenu.java.executor": "Run",
+    "JUnit.ApplicationServiceTest.executor": "Run",
+    "JUnit.AuthServiceTest.executor": "Run",
+    "JUnit.EducationServiceTest.executor": "Run",
+    "JUnit.JobServiceTest.executor": "Run",
+    "JUnit.ProfileCompletionServiceTest.executor": "Run",
+    "JUnit.RevHireTestSuite.executor": "Run",
+    "Maven.untitled [compile].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/RevHire",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/RevHire/src/main/java/org/revhire/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.MainMenu">
+}]]></component>
+  <component name="RunManager" selected="JUnit.RevHireTestSuite">
     <configuration name="MainMenu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.revhire.ui.MainMenu" />
       <module name="RevHire" />
@@ -93,22 +82,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.revhire.service" />
       <option name="MAIN_CLASS_NAME" value="com.revhire.service.ApplicationServiceTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthServiceTest" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="RevHire" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.revhire.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.revhire.service" />
-      <option name="MAIN_CLASS_NAME" value="com.revhire.service.AuthServiceTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -162,13 +135,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RevHireTestSuite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RevHire" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.revhire.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.revhire" />
+      <option name="MAIN_CLASS_NAME" value="com.revhire.RevHireTestSuite" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RevHireTestSuite" />
         <item itemvalue="Application.MainMenu" />
         <item itemvalue="JUnit.ApplicationServiceTest" />
         <item itemvalue="JUnit.JobServiceTest" />
         <item itemvalue="JUnit.EducationServiceTest" />
-        <item itemvalue="JUnit.AuthServiceTest" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +192,7 @@
       <workItem from="1770287841747" duration="1208000" />
       <workItem from="1770459353756" duration="1497000" />
       <workItem from="1770529645946" duration="1112000" />
-      <workItem from="1770545366708" duration="627000" />
+      <workItem from="1770545366708" duration="2612000" />
     </task>
     <servers />
   </component>
