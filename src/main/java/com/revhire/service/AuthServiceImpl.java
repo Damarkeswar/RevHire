@@ -15,13 +15,34 @@ public class AuthServiceImpl implements AuthService {
 
     private static final Logger logger = LogManager.getLogger(AuthServiceImpl.class);
     private UserDao userDao;
+    private EmployerDao employerDao;
+    private CompanyDao companyDao;
+    private com.revhire.dao.JobSeekerDao jobSeekerDao;
+    private NotificationService notificationService;
 
     public AuthServiceImpl() {
         this.userDao = new UserDaoImpl();
+        this.employerDao = new EmployerDaoImpl();
+        this.companyDao = new CompanyDaoImpl();
+        this.jobSeekerDao = new com.revhire.dao.JobSeekerDaoImpl();
+        this.notificationService = new NotificationServiceImpl();
     }
 
     public AuthServiceImpl(UserDao userDao) {
         this.userDao = userDao;
+        this.employerDao = new EmployerDaoImpl();
+        this.companyDao = new CompanyDaoImpl();
+        this.jobSeekerDao = new com.revhire.dao.JobSeekerDaoImpl();
+        this.notificationService = new NotificationServiceImpl();
+    }
+
+    public AuthServiceImpl(UserDao userDao, EmployerDao employerDao, CompanyDao companyDao,
+            com.revhire.dao.JobSeekerDao jobSeekerDao, NotificationService notificationService) {
+        this.userDao = userDao;
+        this.employerDao = employerDao;
+        this.companyDao = companyDao;
+        this.jobSeekerDao = jobSeekerDao;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -44,10 +65,8 @@ public class AuthServiceImpl implements AuthService {
         logger.info("User registered successfully: {} with role: {}", user.getEmail(), user.getRole());
 
         // 3. Role-specific creation
-        NotificationService ns = new NotificationServiceImpl();
         if ("EMPLOYER".equalsIgnoreCase(user.getRole())) {
 
-            EmployerDao employerDao = new EmployerDaoImpl();
             int employerId = employerDao.createEmployer(userId);
 
             if (employerId <= 0) {
@@ -64,16 +83,15 @@ public class AuthServiceImpl implements AuthService {
             company.setWebsite("Not Updated");
             company.setLocation("Not Updated");
 
-            CompanyDao companyDao = new CompanyDaoImpl();
             int companyId = companyDao.createCompany(company);
             if (companyId > 0) {
-                ns.notifyEmployer(companyId, "Welcome to RevHire! Please complete your company profile.");
+                notificationService.notifyEmployer(companyId,
+                        "Welcome to RevHire! Please complete your company profile.");
             }
         } else if ("JOB_SEEKER".equalsIgnoreCase(user.getRole())) {
-            com.revhire.dao.JobSeekerDao jsDao = new com.revhire.dao.JobSeekerDaoImpl();
-            int jsId = jsDao.createJobSeeker(userId, "New Seeker");
+            int jsId = jobSeekerDao.createJobSeeker(userId, "New Seeker");
             if (jsId > 0) {
-                ns.notifyJobSeeker(jsId,
+                notificationService.notifyJobSeeker(jsId,
                         "Welcome to RevHire! Start by completing your profile and uploading a resume.");
             }
         }

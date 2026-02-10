@@ -97,6 +97,41 @@ public class JobServiceTest {
     }
 
     @Test
+    public void testPostJobNegative() {
+        Job job = new Job(); // Empty title
+        boolean result = jobService.postJob(job);
+        assertFalse(result, "Job with empty title should not be posted");
+    }
+
+    @Test
+    public void testUpdateJob() {
+        Job job = new Job();
+        job.setJobId(1);
+        job.setTitle("Updated Title");
+        job.setCompanyId(10);
+        when(jobDao.updateJob(job)).thenReturn(true);
+
+        boolean result = jobService.updateJob(job);
+        assertTrue(result);
+        verify(notificationService).notifyEmployer(eq(10), contains("updated"));
+    }
+
+    @Test
+    public void testDeleteJob() {
+        when(jobDao.deleteJob(1)).thenReturn(true);
+        assertTrue(jobService.deleteJob(1));
+    }
+
+    @Test
+    public void testSearchJobs() {
+        when(jobDao.searchJobs(anyString(), anyString(), anyInt(), anyString(), anyDouble(), anyString()))
+                .thenReturn(new ArrayList<>());
+
+        List<Job> results = jobService.searchJobs("Java", "Remote", 2, "Google", 1000.0, "FullTime");
+        assertNotNull(results);
+    }
+
+    @Test
     public void testGetMatchingJobs() {
         int seekerId = 101;
 

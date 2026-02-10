@@ -187,6 +187,7 @@ Configuration is managed via `src/main/resources/log4j2.xml`.
 - [x] Comprehensive ERD Diagram (Mermaid).
 - [x] 3-Tier Application Architecture Diagram (Mermaid).
 - [x] Unit Test Suite with JUnit 5 & Mockito.
+- [x] JaCoCo Code Coverage (Configured for 91% minimum).
 - [x] Log4j 2 Integration for structured auditing.
 
 ---
